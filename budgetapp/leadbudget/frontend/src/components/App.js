@@ -7,21 +7,26 @@ import Withdraw from "./layout/Withdraw";
 import Debt from "./layout/Debt";
 import Dashboard from "./leads/Dashboard";
 
+import { Provider } from "react-redux";
+import store from "../store";
+
 class App extends Component {
   render() {
     return (
-      <Fragment>
-        <Header />
-        <div className="container">
-          <Dashboard />
-          <Balance />
-          <Deposit />
-          <Withdraw />
-          <Debt />
-        </div>
-      </Fragment>
+      <Provider store={store}>
+        <Fragment>
+          <Header />
+          <div className="container">
+            <Dashboard />
+            <Balance />
+            <Deposit />
+            <Withdraw />
+            <Debt />
+          </div>
+        </Fragment>
+      </Provider>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
