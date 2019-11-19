@@ -4,8 +4,14 @@ from .serializers import BudgetSerializer
 
 # Budget Viewset create full crud api
 class BudgetViewSet(viewsets.ModelViewSet):
-    queryset = Budget.objects.all()
+    
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticated
     ]
     serializer_class = BudgetSerializer
+    def get_queryset(self):
+        return self.request.user.leads.all()
+    
+    def perfrom_create(self, serializer):
+        serializer.save(owner=self.request.user)
+  

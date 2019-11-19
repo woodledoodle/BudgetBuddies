@@ -1,6 +1,6 @@
 // any action that we want to fire off will go in here, where we make all of out http requests
 import axios from "axios";
-
+import {createMessage, returnErrors} from "./messages.js"
 import { GET_LEADS, DELETE_LEADS, ADD_LEADS, GET_LEAD } from "./types";
 
 //GET LEADS
@@ -13,7 +13,7 @@ export const getLeads = () => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => dispatch(returnErrors(err.response.data,err.response.status)));
 };
 
 //DELETE LEAD
@@ -40,7 +40,7 @@ export const addLeads = lead => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => dispatch(returnErrors(err.response.data,err.response.status)));
 };
 
 //test
