@@ -19,6 +19,7 @@ export const getLeads = () => dispatch => {
 //DELETE LEAD
 export const deleteLeads = id => dispatch => {
   axios
+//   console.log("this is id", id)
     .delete(`/api/budget/${id}/`)
     .then(res => {
       dispatch({

@@ -19,7 +19,7 @@ export class Leads extends Component {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>id</th>
               <th>Name</th>
               <th>Email</th>
               <th>Message</th>
@@ -38,7 +38,7 @@ export class Leads extends Component {
                     onClick={this.props.deleteLeads.bind(this, lead.id)}
                     className="btn btn-danger btn-sm"
                   >
-                    
+                    {" "}
                     Delete
                   </button>
                 </td>
