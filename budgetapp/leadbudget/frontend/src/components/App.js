@@ -17,6 +17,7 @@ class App extends Component {
         <Fragment>
           <Header />
           <div className="container">
+            <h1>"hello"</h1>
             <Dashboard />
             <Balance />
             <Deposit />
