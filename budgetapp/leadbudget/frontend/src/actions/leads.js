@@ -1,7 +1,7 @@
 // any action that we want to fire off will go in here, where we make all of out http requests
 import axios from "axios";
 
-import { GET_LEADS, DELETE_LEADS } from "./types";
+import { GET_LEADS, DELETE_LEADS, ADD_LEADS } from "./types";
 
 //GET LEADS
 export const getLeads = () => dispatch => {
@@ -29,3 +29,16 @@ export const deleteLeads = id => dispatch => {
     })
     .catch(err => console.log(err));
 };
+
+//ADD LEAD
+export const addLeads = (lead) => dispatch => {
+    axios
+      .post("/api/budget/", lead)
+      .then(res => {
+        dispatch({
+          type: ADD_LEADS,
+          payload: res.data
+        });
+      })
+      .catch(err => console.log(err));
+  };
