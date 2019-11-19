@@ -1,5 +1,8 @@
 import React,{Component} from 'react'
 
+//try to change values
+import { BudgetConsumer} from '../../store'
+
 export class Balance extends Component {
     constructor(props){
         super(props)

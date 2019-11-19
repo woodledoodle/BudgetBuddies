@@ -17,12 +17,13 @@ class App extends Component {
         <Fragment>
           <Header />
           <div className="container">
-            <h1>"hello"</h1>
-            <Dashboard />
+            <h1>"Its Budget Time!"</h1>
             <Balance />
             <Deposit />
             <Withdraw />
             <Debt />
+            <Dashboard />
+            
           </div>
         </Fragment>
       </Provider>
