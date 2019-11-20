@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { register } from "../../actions/auth";
 
 export class Register extends Component {
   state = {
@@ -8,10 +11,25 @@ export class Register extends Component {
     password: "",
     password2: ""
   };
+  //static will add to the class object instead of this instance. this is also used for validation
+  static propTypes = {
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+  };
 
   onSubmit = e => {
     e.preventDefault();
-    console.log("submit");
+    const { username, email, password, password2 } = this.state;
+    if (password !== password2) {
+      console.log("passwords no no", { passwordNotMatch: "Passwords do not match" });
+    } else {
+      const newUser = {
+        username,
+        password,
+        email
+      };
+      this.props.register(newUser);
+    }
   };
   onChange = e => this.setState({ [e.target.name]: e.target.value });
   render() {
@@ -75,5 +93,9 @@ export class Register extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
 
-export default Register;
+export default connect(mapStateToProps, { register }
+)(Register);

@@ -6,7 +6,10 @@ import {
     USER_LOADING,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    LOGOUT_SUCCESS,
+    REGISTER_SUCCESS,
+    REGISTER_FAILED
 } from './types';
 
 
@@ -64,6 +67,56 @@ export const login = (username, password) => (dispatch) => {
             dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({
                 type: LOGIN_FAIL
+            })
+        })
+}
+//logout
+export const logout = () => (dispatch, getState) => {
+
+    //headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const token = localStorage.getItem('token')
+    config.headers["Authorization"] = `Token ${token}`;
+    axios
+        .post("/api/auth/logout", null, config)
+        .then(res => {
+            dispatch({
+                type: LOGOUT_SUCCESS,
+                payload: res.data
+            });
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+//register
+export const register = (newUser) => (dispatch) => {
+
+    //headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    // request body stringify
+    console.log("PARSEW: ", newUser)
+    const body = JSON.stringify(newUser)
+    console.log("register", body)
+    axios
+        .post('/api/auth/register', body, config)
+        .then(res => {
+            console.log("payload", res.data)
+            dispatch({
+                type: REGISTER_SUCCESS,
+                payload: res.data
+            });
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status));
+            dispatch({
+                type: REGISTER_FAILED
             })
         })
 }
