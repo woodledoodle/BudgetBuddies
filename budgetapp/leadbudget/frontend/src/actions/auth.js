@@ -94,7 +94,6 @@ export const logout = () => (dispatch, getState) => {
 
 //register
 export const register = (newUser) => (dispatch) => {
-
     //headers
     const config = {
         headers: {
@@ -102,9 +101,7 @@ export const register = (newUser) => (dispatch) => {
         }
     }
     // request body stringify
-    console.log("PARSEW: ", newUser)
     const body = JSON.stringify(newUser)
-    console.log("register", body)
     axios
         .post('/api/auth/register', body, config)
         .then(res => {
