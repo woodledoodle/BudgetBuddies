@@ -1,19 +1,26 @@
 // any action that we want to fire off will go in here, where we make all of out http requests
 import axios from "axios";
-import {createMessage, returnErrors} from "./messages.js"
+import { createMessage, returnErrors } from "./messages.js"
 import { GET_LEADS, DELETE_LEADS, ADD_LEADS, GET_LEAD } from "./types";
 
 //GET LEADS
 export const getLeads = () => dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  const token = localStorage.getItem('token')
+  config.headers["Authorization"] = `Token ${token}`
   axios
-    .get("/api/budget/")
+    .get("/api/budget/", config)
     .then(res => {
       dispatch({
         type: GET_LEADS,
         payload: res.data
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data,err.response.status)));
+    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
 
 //DELETE LEAD
@@ -32,15 +39,22 @@ export const deleteLeads = id => dispatch => {
 
 //ADD LEAD
 export const addLeads = lead => dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  const token = localStorage.getItem('token')
+  config.headers["Authorization"] = `Token ${token}`
   axios
-    .post("/api/budget/", lead)
+    .post("/api/budget/", lead, config)
     .then(res => {
       dispatch({
         type: ADD_LEADS,
         payload: res.data
       });
     })
-    .catch(err => dispatch(returnErrors(err.response.data,err.response.status)));
+    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
 
 //test

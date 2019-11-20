@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export class Header extends Component {
   render() {
@@ -21,9 +22,17 @@ export class Header extends Component {
           </a>
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
             <li className="nav-item active">
-              <a className="nav-link" href="#">
-                Expense Creator <span className="sr-only">(current)</span>
-              </a>
+              {/* <a className="nav-link" href="#"> */}
+              {/* Expense Creator <span className="sr-only">(current)</span>
+              </a> */}
+              <Link to="/register" className="nav-link">
+                Register
+              </Link>
+            </li>
+            <li>
+              <Link to="/login" className="nav-link">
+                Login
+              </Link>
             </li>
           </ul>
         </div>

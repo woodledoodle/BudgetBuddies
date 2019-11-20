@@ -33,4 +33,14 @@ class LoginAPI(generics.GenericAPIView):
 
 
 
-#get user api
+#get user api a retrieve api view
+class UserAPI(generics.RetrieveAPIView):
+    # want this route to be protected, needs a valid token
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    serializer_class = UserSerializer
+    #want to return the user
+    def get_object(self):
+        #looks at token and send back whichever user is associated with that token
+        return self.request.user
