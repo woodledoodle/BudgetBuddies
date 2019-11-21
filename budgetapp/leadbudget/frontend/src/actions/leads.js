@@ -25,9 +25,17 @@ export const getLeads = () => dispatch => {
 
 //DELETE LEAD
 export const deleteLeads = id => dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  const token = localStorage.getItem('token')
+  config.headers["Authorization"] = `Token ${token}`
   axios
     //   console.log("this is id", id)
-    .delete(`/api/budget/${id}/`)
+    .delete(`/api/budget/${id}/`, config)
     .then(res => {
       dispatch({
         type: DELETE_LEADS,
@@ -39,20 +47,17 @@ export const deleteLeads = id => dispatch => {
 
 //ADD LEAD
 export const addLeads = lead => dispatch => {
-  console.log("ADFADFadsf")
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   }
-  
+
   const token = localStorage.getItem('token')
-  config.headers["Authorization"] = `Token ${token}`
-  console.log("going to send")
+  config.headers["Authorization"] = `Token ${token}`;
   axios
     .post("/api/budget/", lead, config)
     .then(res => {
-      console.log("DID THIS WORK")
       dispatch({
         type: ADD_LEADS,
         payload: res.data

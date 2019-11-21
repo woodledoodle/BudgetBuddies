@@ -5,9 +5,8 @@ import { addLeads } from "../../actions/leads";
 
 export class Forms extends Component {
   state = {
-    name: "",
-    email: "",
-    message: ""
+    balance: "",
+    description: ""
   };
 
   static propTypes = {
@@ -19,43 +18,43 @@ export class Forms extends Component {
   onSubmit = e => {
     e.preventDefault();
     console.log("submitting");
-    const { name, email, message } = this.state;
-    const lead = { name, email, message };
+    const { balance, description } = this.state;
+    const lead = { balance, description };
     this.props.addLeads(lead);
     this.setState({
-      name: "",
-      email: "",
-      message: ""
+      balance: "",
+      description: "",
+
     });
   };
 
   render() {
-    const { name, email, message } = this.state;
+    const { balance, description } = this.state;
     return (
       <div className="card card-body mt-4 mb-4">
-        <h2>Add Post</h2>
+        <h2>Record Balance</h2>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>Name</label>
+            <label>Balance</label>
             <input
               className="form-control"
               type="text"
-              name="name"
+              name="balance"
               onChange={this.onChange}
-              value={name}
+              value={balance}
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label>Description</label>
             <input
               className="form-control"
-              type="email"
-              name="email"
+              type="text"
+              name="description"
               onChange={this.onChange}
-              value={email}
+              value={description}
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Message</label>
             <textarea
               className="form-control"
@@ -64,7 +63,7 @@ export class Forms extends Component {
               onChange={this.onChange}
               value={message}
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <button type="submit" className="btn btn-primary">
               Submit
