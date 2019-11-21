@@ -5,6 +5,12 @@ This app is still in its developing stages and will be worked on consistently.
 
 Currently django is being used in the backend. To run please uss python manage.py runserver. In the front end, react and react-redux is being used. Please use npm run dev to start
 
+Dependencies I Used
+Redux-Thunk: middleware used to handle asynchronous actions in redux
+
+
+Webpack was used to put all modular components in the right architecture and with transpiling
+
 #Resources that i used
 https://react-redux.js.org/
 

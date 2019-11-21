@@ -14,7 +14,7 @@ export class Balance extends Component {
         <h1>
           Balance <input type="text" />
         </h1>
-        <h1>another tag</h1>
+
       </>
     );
   }
