@@ -6,18 +6,20 @@ import { getLeads, deleteLeads } from "../../actions/leads";
 
 export class Leads extends Component {
   static propTypes = {
-    leads: PropTypes.array.isRequired,
+    lead: PropTypes.array.isRequired,
     getLeads: PropTypes.func.isRequired,
     deleteLeads: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.props.getLeads();
+    console.log("are records here?? ", this.props.lead);
   }
   render() {
     return (
       <Fragment>
         <h2>Records</h2>
+        <h2>Balance</h2>
         <table className="table table-striped">
           <thead>
             <tr>
@@ -27,7 +29,7 @@ export class Leads extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.leads.map(lead => (
+            {/* {this.props.lead.map(lead => (
               <tr key={lead.id}>
                 <td>{lead.id}</td>
                 <td>{lead.description}</td>
@@ -42,7 +44,7 @@ export class Leads extends Component {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
       </Fragment>
@@ -50,6 +52,6 @@ export class Leads extends Component {
   }
 }
 const mapStateToProps = state => ({
-  leads: state.leads.leads
+  lead: state.leads.leads
 });
 export default connect(mapStateToProps, { getLeads, deleteLeads })(Leads);

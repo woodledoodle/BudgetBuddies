@@ -15,6 +15,12 @@ export class Forms extends Component {
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
+  changeBalance = (action) => {
+
+    console.log("changing balnce", action)
+    console.log("Current state: ", this.state.balance)
+  
+  }
   onSubmit = e => {
     e.preventDefault();
     console.log("submitting");
@@ -35,7 +41,7 @@ export class Forms extends Component {
         <h2>Record Balance</h2>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>Balance</label>
+            <label>Amount</label>
             <input
               className="form-control"
               type="text"
@@ -65,12 +71,11 @@ export class Forms extends Component {
             />
           </div> */}
           <div className="form-group">
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
+            <button type="button" onClick={()=> this.changeBalance('add')} className="btn btn-primary mr-1 mt-1">Add</button>
+            <button type="button" onClick={()=>this.changeBalance('subtract')} className="btn btn-danger mt-1">Subtract</button>
           </div>
         </form>
-      </div>
+      </div >
     );
   }
 }

@@ -1,7 +1,7 @@
 // any action that we want to fire off will go in here, where we make all of out http requests
 import axios from "axios";
 import { createMessage, returnErrors } from "./messages.js"
-import { GET_LEADS, DELETE_LEADS, ADD_LEADS, GET_LEAD } from "./types";
+import { GET_LEADS, DELETE_LEADS, ADD_LEADS, GET_LEAD, UPDATE_LEADS } from "./types";
 
 //GET LEADS
 export const getLeads = () => dispatch => {
@@ -77,4 +77,26 @@ export const getLead = id => dispatch => {
       });
     })
     .catch(err => console.log(err));
+};
+
+
+//ADD LEAD
+export const updateLeads = lead => dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  const token = localStorage.getItem('token')
+  config.headers["Authorization"] = `Token ${token}`;
+  axios
+    .put("/api/budget/", lead, config)
+    .then(res => {
+      dispatch({
+        type: ADD_LEADS,
+        payload: res.data
+      });
+    })
+    .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };

@@ -60,7 +60,7 @@ export class Login extends Component {
               </button>
             </div>
             <p>
-              register <Link to="/register">Register</Link>
+              <Link to="/register">Register</Link>
             </p>
           </form>
         </div>
