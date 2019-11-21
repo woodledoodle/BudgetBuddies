@@ -39,16 +39,20 @@ export const deleteLeads = id => dispatch => {
 
 //ADD LEAD
 export const addLeads = lead => dispatch => {
+  console.log("ADFADFadsf")
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   }
+  
   const token = localStorage.getItem('token')
   config.headers["Authorization"] = `Token ${token}`
+  console.log("going to send")
   axios
     .post("/api/budget/", lead, config)
     .then(res => {
+      console.log("DID THIS WORK")
       dispatch({
         type: ADD_LEADS,
         payload: res.data

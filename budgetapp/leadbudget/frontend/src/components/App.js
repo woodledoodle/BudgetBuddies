@@ -33,11 +33,6 @@ class App extends Component {
           <Fragment>
             <Header />
             <div className="container">
-              <h1>"Its Budget Time!"</h1>
-              <Balance />
-              <Deposit />
-              <Withdraw />
-              <Debt />
               <Switch>
                 <PrivateRoute exact path="/" component={Dashboard} />
                 <Route exact path="/register" component={Register} />

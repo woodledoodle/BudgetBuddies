@@ -21,3 +21,4 @@ export class Balance extends Component {
 }
 
 export default Balance;
+

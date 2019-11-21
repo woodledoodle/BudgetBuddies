@@ -18,7 +18,7 @@ export class Forms extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log("submit");
+    console.log("submitting");
     const { name, email, message } = this.state;
     const lead = { name, email, message };
     this.props.addLeads(lead);
