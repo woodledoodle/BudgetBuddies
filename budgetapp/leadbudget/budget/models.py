@@ -14,8 +14,3 @@ class Record(models.Model):
     description = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
-# class SharedBudget(models.Model):
-#     budget = model.ForeignKey(Budget, related_name="sharedBudget", on_delete=models.CASCADE, null=True)
-#     owner = models.ForeignKey(User, related_name="balance", on_delete=models.CASCADE, null=True)
-    # amount = models.DecimalField(max_digits=999, decimal_places=2)
-    # updated_at = models.DateTimeField(auto_now_add=True)

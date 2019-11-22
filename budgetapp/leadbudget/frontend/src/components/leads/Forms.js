@@ -1,53 +1,67 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { addLeads } from "../../actions/leads";
+import { addLeads, createRecord } from "../../actions/leads";
 
 export class Forms extends Component {
   state = {
-    balance: "",
+    amount: "",
     description: ""
   };
 
   static propTypes = {
-    addLeads: PropTypes.func.isRequired
+    addLeads: PropTypes.func.isRequired,
+    createRecord: PropTypes.func.isRequired
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   changeBalance = (action) => {
+    let { amount, description } = this.state;
+    amount = Number(Number(amount).toFixed(2));
+    let budget = this.props.leads[0];
+    budget.balance = Number(budget.balance);
 
-    console.log("changing balnce", action)
-    console.log("Current state: ", this.state.balance)
-  
+    if (action == 'addition') {
+      budget.balance += amount;
+    } else if (action == 'expense') {
+      budget.balance -= amount;
+    }
+    budget.balance = Number(budget.balance).toFixed(2)
+    budget = budget.id;
+    const record = { amount, description, action, budget }
+    this.props.createRecord(record);
+    this.setState({
+      amount: "",
+      description: ""
+    })
   }
   onSubmit = e => {
     e.preventDefault();
-    console.log("submitting");
-    const { balance, description } = this.state;
-    const lead = { balance, description };
+    const { amount, description } = this.state;
+    const lead = { amount, description };
     this.props.addLeads(lead);
     this.setState({
-      balance: "",
+      amount: "",
       description: "",
 
     });
   };
 
   render() {
-    const { balance, description } = this.state;
+    const { amount, description } = this.state;
     return (
       <div className="card card-body mt-4 mb-4">
-        <h2>Record Balance</h2>
+        <h2>Record Transaction</h2>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Amount</label>
             <input
               className="form-control"
-              type="text"
-              name="balance"
+              type="numeric"
+              name="amount"
               onChange={this.onChange}
-              value={balance}
+              value={amount}
             />
           </div>
           <div className="form-group">
@@ -71,8 +85,8 @@ export class Forms extends Component {
             />
           </div> */}
           <div className="form-group">
-            <button type="button" onClick={()=> this.changeBalance('add')} className="btn btn-primary mr-1 mt-1">Add</button>
-            <button type="button" onClick={()=>this.changeBalance('subtract')} className="btn btn-danger mt-1">Subtract</button>
+            <button type="button" onClick={() => this.changeBalance('addition')} className="btn btn-primary mr-1 mt-1">Add</button>
+            <button type="button" onClick={() => this.changeBalance('expense')} className="btn btn-danger mt-1">Subtract</button>
           </div>
         </form>
       </div >
@@ -80,4 +94,10 @@ export class Forms extends Component {
   }
 }
 
-export default connect(null, { addLeads })(Forms);
+const mapStateToProps = (state) => {
+  console.log("the state in FORMS", state)
+  return ({
+    leads: state.leads.leads
+  })
+}
+export default connect(mapStateToProps, { addLeads, createRecord })(Forms);

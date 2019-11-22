@@ -2,37 +2,25 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getLeads, deleteLeads, getRecords } from "../../actions/leads";
+import { getLeads, deleteRecord } from "../../actions/leads";
 
 export class Leads extends Component {
   static propTypes = {
-    lead: PropTypes.array.isRequired,
-    records: PropTypes.array.isRequired,
+    leads: PropTypes.array.isRequired,
     getLeads: PropTypes.func.isRequired,
-    deleteLeads: PropTypes.func.isRequired,
-    getRecords: PropTypes.func.isRequired
+    deleteRecord: PropTypes.func.isRequired
   };
 
 
   componentDidMount() {
     this.props.getLeads();
-    console.log("are records here?? ", this.props.lead);
-  }
-  getRecords(budget) {
-
-    console.log("will this break???", budget)
-    if (budget) {
-      this.props.getRecords(budget.id);
-    }
+    console.log("are records here?? ", this.props.leads);
   }
   render() {
-    const lead = this.props.lead[0];
+    const lead = this.props.leads[0];
     // this.someOtherFunction(lead)
-    if (!this.props.records) {
-      this.getRecords(lead);
-    }
+    
     console.log("the lead is: ", lead)
-    console.log("adff", lead)
     return (
       <Fragment>
         <h2>Records</h2>
@@ -47,7 +35,7 @@ export class Leads extends Component {
             </tr>
           </thead>
           <tbody>
-            {(this.props.records) ? this.props.records.map(record => (
+            {(lead) ? lead.records.map(record => (
               <tr key={record.id}>
                 <td>{record.id}</td>
                 <td>{record.description}</td>
@@ -55,7 +43,7 @@ export class Leads extends Component {
                 <td>{record.action}</td>
                 <td>
                   <button
-                    onClick={this.props.deleteLeads.bind(this, lead.id)}
+                    onClick={this.props.deleteRecord.bind(this, record.id)}
                     className="btn btn-danger btn-sm"
                   >
                     {" "}
@@ -73,9 +61,8 @@ export class Leads extends Component {
 const mapStateToProps = (state) => {
   console.log("the stattttYTTTETTETETETET", state)
   return ({
-    lead: state.leads.leads,
-    records: state.leads.records
+    leads: state.leads.leads
   })
 }
 
-export default connect(mapStateToProps, { getLeads, deleteLeads, getRecords })(Leads);
+export default connect(mapStateToProps, { getLeads, deleteRecord })(Leads);

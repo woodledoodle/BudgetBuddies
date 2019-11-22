@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .serializers import BudgetSerializer, RecordSerializer
 from django.http import JsonResponse
 from .models import Budget, Record
+from decimal import Decimal
 # Budget Viewset create full crud api
 class BudgetViewSet(viewsets.ModelViewSet):
     queryset = Budget.objects.all()
@@ -11,11 +12,6 @@ class BudgetViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticated
     ]
     serializer_class = BudgetSerializer
-    # def retrieve(self, request, pk=None):
-    #     queryset = self.request.user.budgets.all()
-    #     budget = get_object_or_404(queryset, pk=pk)
-    #     serializer = BudgetSerializer(budget)
-    #     return Response(serializer.data)
 
     def get_queryset(self, pk=None):
         # self.queryset.filter(id=self.kwargs.get('game_pk'))
@@ -49,25 +45,22 @@ class BudgetViewSet(viewsets.ModelViewSet):
 class RecordView(viewsets.ModelViewSet):
     serializer_class = RecordSerializer
     bs = BudgetSerializer
-    queryset = Record.objects.all()
+    queryset = Record.objects.all() # responsible for view and updating (ViewSet patterns are cool, made easy, but so abstract at first... aiaiaiAI)
     permission_classes = [
         permissions.IsAuthenticated
     ]
-    def get_queryset(self, pk=None):
-        budget = self.request.query_params.get("budget")
-        print("query parameters areP ", budget)
-
-        return self.queryset.filter(budget=budget)
     
     def perform_create(self, serializer):
+        
         record = self.request.data
+        print("CRESATING RECORD DJDJDJANGO", record)
         action = record["action"]
         amount = record["amount"]
         budgetInstance = Budget.objects.get(id=self.request.data["budget"])
         if action=="addition":
-            budgetInstance.balance = budgetInstance.balance + amount
+            budgetInstance.balance = budgetInstance.balance + Decimal(amount)
         elif action=="expense":
-            budgetInstance.balance = budgetInstance.balance - amount
+            budgetInstance.balance = budgetInstance.balance - Decimal(amount)
 
         budgetInstance.save()
         serializer.save(budget=budgetInstance)
