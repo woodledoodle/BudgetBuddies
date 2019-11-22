@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Budget(models.Model):
     balance = models.DecimalField(max_digits=999, decimal_places=2, default=0.00)
-    owner = models.ForeignKey(User, related_name="budgets", on_delete=models.CASCADE, null=True )
+    owner = models.ForeignKey(User, related_name="budgets", on_delete=models.CASCADE, null=True, unique=True )
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Record(models.Model):

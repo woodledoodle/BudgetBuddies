@@ -2,38 +2,57 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getLeads, deleteLeads } from "../../actions/leads";
+import { getLeads, deleteLeads, getRecords } from "../../actions/leads";
 
 export class Leads extends Component {
   static propTypes = {
     lead: PropTypes.array.isRequired,
+    records: PropTypes.array.isRequired,
     getLeads: PropTypes.func.isRequired,
-    deleteLeads: PropTypes.func.isRequired
+    deleteLeads: PropTypes.func.isRequired,
+    getRecords: PropTypes.func.isRequired
   };
+
 
   componentDidMount() {
     this.props.getLeads();
     console.log("are records here?? ", this.props.lead);
   }
+  getRecords(budget) {
+
+    console.log("will this break???", budget)
+    if (budget) {
+      this.props.getRecords(budget.id);
+    }
+  }
   render() {
+    const lead = this.props.lead[0];
+    // this.someOtherFunction(lead)
+    if (!this.props.records) {
+      this.getRecords(lead);
+    }
+    console.log("the lead is: ", lead)
+    console.log("adff", lead)
     return (
       <Fragment>
         <h2>Records</h2>
-        <h2>Balance</h2>
+        <h2>Balance: {(lead) ? lead.balance : ""}</h2>
         <table className="table table-striped">
           <thead>
             <tr>
               <th>id</th>
               <th>Description</th>
-              <th>Balance</th>
+              <th>Amount</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {/* {this.props.lead.map(lead => (
-              <tr key={lead.id}>
-                <td>{lead.id}</td>
-                <td>{lead.description}</td>
-                <td>{lead.balance}</td>
+            {(this.props.records) ? this.props.records.map(record => (
+              <tr key={record.id}>
+                <td>{record.id}</td>
+                <td>{record.description}</td>
+                <td>{record.amount}</td>
+                <td>{record.action}</td>
                 <td>
                   <button
                     onClick={this.props.deleteLeads.bind(this, lead.id)}
@@ -44,14 +63,19 @@ export class Leads extends Component {
                   </button>
                 </td>
               </tr>
-            ))} */}
+            )) : <tr></tr>}
           </tbody>
         </table>
-      </Fragment>
+      </Fragment >
     );
   }
 }
-const mapStateToProps = state => ({
-  lead: state.leads.leads
-});
-export default connect(mapStateToProps, { getLeads, deleteLeads })(Leads);
+const mapStateToProps = (state) => {
+  console.log("the stattttYTTTETTETETETET", state)
+  return ({
+    lead: state.leads.leads,
+    records: state.leads.records
+  })
+}
+
+export default connect(mapStateToProps, { getLeads, deleteLeads, getRecords })(Leads);

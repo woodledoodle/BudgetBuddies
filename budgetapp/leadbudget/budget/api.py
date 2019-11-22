@@ -3,7 +3,7 @@ from rest_framework import viewsets, permissions, generics
 from rest_framework.response import Response
 from .serializers import BudgetSerializer, RecordSerializer
 from django.http import JsonResponse
-from .models import Budget
+from .models import Budget, Record
 # Budget Viewset create full crud api
 class BudgetViewSet(viewsets.ModelViewSet):
     queryset = Budget.objects.all()
@@ -18,7 +18,9 @@ class BudgetViewSet(viewsets.ModelViewSet):
     #     return Response(serializer.data)
 
     def get_queryset(self, pk=None):
-        return self.queryset
+        # self.queryset.filter(id=self.kwargs.get('game_pk'))
+        # print("balance queryset", (self.request.user.budgets.get(id=1)).balance)
+        return self.queryset.filter(owner=self.request.user.id)
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -47,7 +49,15 @@ class BudgetViewSet(viewsets.ModelViewSet):
 class RecordView(viewsets.ModelViewSet):
     serializer_class = RecordSerializer
     bs = BudgetSerializer
-    print("adfad")
+    queryset = Record.objects.all()
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    def get_queryset(self, pk=None):
+        budget = self.request.query_params.get("budget")
+        print("query parameters areP ", budget)
+
+        return self.queryset.filter(budget=budget)
     
     def perform_create(self, serializer):
         record = self.request.data
